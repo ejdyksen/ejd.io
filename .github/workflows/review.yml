@@ -1,0 +1,23 @@
+name: Review
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync src/ s3://staging.ejd.io/${{github.run_id}}/ --delete --acl public-read
+    - uses: phulsechinmay/rewritable-pr-comment@v0.2.1
+      with:
+        message: "**Preview app**: [link](https://staging.ejd.io/${{github.run_id}}/)"
+        GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
+        COMMENT_IDENTIFIER: "test-output-comment-rewritable-action" # Put some identifier here that will be unique among comments in the PR
