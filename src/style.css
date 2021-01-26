@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
   font-size: 14px;
-  margin: 2%;
+  margin: 1.5em;
 }
 
 header {
@@ -15,4 +15,23 @@ h1 {
 h2 {
   font-weight: normal;
   font-size: 1.2em;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+a {
+  color: rgb(0, 0, 238);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #222;
+    color: #fff;
+  }
+
+  a {
+    color: rgb(88, 166, 255);
+  }
 }
